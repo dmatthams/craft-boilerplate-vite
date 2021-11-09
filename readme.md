@@ -8,7 +8,7 @@ A minimal starting point for Craft, using Craft Nitro and Laravel Mix.
 4. `make install` to install Craft, plugins, and Node dependencies
 5. `nitro ssh` to ssh into your nitro server
 6. `npm run dev` to start vite server
-7. Open your site using the nitro domain i.e. your-domain.nitro
+7. Open your site using the nitro domain i.e. `your-domain.nitro`
 8. 🌈🦄✨
 
 ## Included plugins
