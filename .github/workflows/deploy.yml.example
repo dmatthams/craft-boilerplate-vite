@@ -1,0 +1,59 @@
+# Create key pair with: ssh-keygen -t rsa -b 4096 -m pem -f /tmp/key-github
+
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HOST: ${{secrets.HOST}}
+      USER: ${{secrets.USER}}
+      REMOTE_PATH: ${{secrets.FOLDER}}
+      PORT: 22
+      SSH_KEY: ${{secrets.SSH_KEY}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+
+      - name: Get npm cache directory
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+
+      - name: Install Composer dependencies
+        working-directory: ./
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-scripts --ignore-platform-reqs --no-progress --optimize-autoloader --no-interaction
+
+      - name: Install NPM dependencies
+        run: npm install --silent
+
+      - name: Compile assets
+        run: npx mix --production
+
+      - name: Atomic Deploy
+        uses: sitemill/craftcms-atomic-deploy-action@main
+        with:
+          host: ${{ env.HOST }}
+          port: ${{ env.PORT }}
+          user: ${{ env.USER }}
+          ssh_key: ${{ env.SSH_KEY }}
+          remote_path: ${{ env.REMOTE_PATH }}
+          post_deploy: |
+            php craft db/backup
+            php craft migrate/all
+            php craft project-config/apply

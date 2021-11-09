@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <title>{{ siteName }}</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    {{ craft.vite.script("src/js/app.js") }}
+
+</head>
+<body>
+<div class="hidden"><a href="#main">Skip to content</a></div>
+<div id="app">
+
+    {% include '_components/site-header.twig' %}
+
+    <main id="main">
+        {% block appMain %}
+            No app content
+        {% endblock %}
+    </main>
+
+    {% include '_components/site-footer.twig' %}
+
+</div>
+
+</body>
+</html>
