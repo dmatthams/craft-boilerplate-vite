@@ -1,6 +1,6 @@
-# Craft Boilerplate
+# Craft Vite Boilerplate
 
-A minimal starting point for Craft, using Craft Nitro and Laravel Mix.
+A minimal starting point for Craft, using Craft Nitro and Vite.
 
 1. [Install Craft Nitro](https://getnitro.sh)
 2. `nitro create https://github.com/dmatthams/craft-vite your-project`
@@ -13,7 +13,7 @@ A minimal starting point for Craft, using Craft Nitro and Laravel Mix.
 
 ## Included plugins
 
-* [Mix Manifest](https://github.com/leowebguy/mix-manifest) - To load versioned assets from mix-manifest.json
+* [Craft Vite](https://github.com/nystudio107/craft-vite) - To handle loading of assets from Vite
 * [Craft Autocomplete](https://github.com/nystudio107/craft-autocomplete) - Allows for code completion in PHPStorm
 
 ## Todo
